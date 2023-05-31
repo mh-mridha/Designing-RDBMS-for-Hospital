@@ -1,0 +1,90 @@
+CREATE TABLE Administrator
+(
+  dept_name INT NOT NULL,
+  budget INT NOT NULL,
+  capacity INT NOT NULL,
+  PRIMARY KEY (dept_name)
+);
+
+CREATE TABLE Doctor
+(
+  d_name INT NOT NULL,
+  d_ID INT NOT NULL,
+  salary INT NOT NULL,
+  dept_name INT NOT NULL,
+  PRIMARY KEY (d_ID),
+  FOREIGN KEY (dept_name) REFERENCES Administrator(dept_name)
+);
+
+CREATE TABLE Ward_Boys
+(
+  WB_name INT NOT NULL,
+  WB_ID INT NOT NULL,
+  dept_name INT NOT NULL,
+  PRIMARY KEY (WB_ID),
+  FOREIGN KEY (dept_name) REFERENCES Administrator(dept_name)
+);
+
+CREATE TABLE Nurses
+(
+  N_ID INT NOT NULL,
+  N_name INT NOT NULL,
+  PRIMARY KEY (N_ID)
+);
+
+CREATE TABLE Room
+(
+  room_no INT NOT NULL,
+  room_type INT NOT NULL,
+  capacity INT NOT NULL,
+  PRIMARY KEY (room_no),
+  UNIQUE (room_type)
+);
+
+CREATE TABLE patient_nurse
+(
+  room_no INT NOT NULL,
+  N_ID INT NOT NULL,
+
+  PRIMARY KEY (room_no, N_ID),
+  FOREIGN KEY (room_no) REFERENCES Room(room_no),
+  FOREIGN KEY (N_ID) REFERENCES Nurses(N_ID)
+);
+
+CREATE TABLE Patient
+(
+  P_ID INT NOT NULL,
+  P_name INT NOT NULL,
+  age INT NOT NULL,
+  sex INT NOT NULL,
+  disease INT NOT NULL,
+  tratment INT NOT NULL,
+  house INT NOT NULL,
+  road INT NOT NULL,
+  city INT NOT NULL,
+  d_ID INT NOT NULL,
+  dept_name INT NOT NULL,
+  room_no INT NOT NULL,
+
+  PRIMARY KEY (P_ID),
+  FOREIGN KEY (d_ID) REFERENCES Doctor(d_ID),
+  FOREIGN KEY (dept_name) REFERENCES Administrator(dept_name),
+  FOREIGN KEY (room_no) REFERENCES Room(room_no)
+);
+
+CREATE TABLE Bill
+(
+  treatment INT NOT NULL,
+  days INT NOT NULL,
+  P_ID INT NOT NULL,
+  PRIMARY KEY (P_ID),
+  FOREIGN KEY (P_ID) REFERENCES Patient(P_ID)
+);
+
+CREATE TABLE Patient_phone_no
+(
+  phone_no INT NOT NULL,
+  P_ID INT NOT NULL,
+  PRIMARY KEY (phone_no, P_ID),
+  FOREIGN KEY (P_ID) REFERENCES Patient(P_ID)
+);
